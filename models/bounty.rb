@@ -33,8 +33,27 @@ class Bounty
     db.close()
   end
 
-end
+  def update() 
+    db = PG.connect({dbname: 'bounty_hunter', host: 'localhost'})
+    sql = "
+    UPDATE bounties SET (
+      name,
+      bounty_value,
+      danger_level,
+      last_known_location
+      ) =
+      (
+        $1, $2, $3, $4
+      )
+      WHERE id = $5"
+      values = [@name, @bounty_value, @danger_level, @last_known_location, @id]
+      db.prepare("update", sql)
+      db.exec_prepared("update", values)
+      db.close()
+    end
 
-# createdb bounty_hunter
-# psql -d bounty_hunter -f db/bounty_hunter.sql
-# ruby db/console.rb
+  end
+
+  # createdb bounty_hunter
+  # psql -d bounty_hunter -f db/bounty_hunter.sql
+  # ruby db/console.rb
