@@ -52,7 +52,7 @@ class Bounty
       db.close()
     end
 
-    def delete() # DELETE
+    def delete()
       db = PG.connect({dbname: 'bounty_hunter', host: 'localhost'})
       sql = "DELETE FROM bounties
       WHERE id = $1"
@@ -60,6 +60,17 @@ class Bounty
       db.prepare("delete", sql)
       db.exec_prepared("delete", values)
       db.close()
+    end
+
+    def Bounty.all() 
+      db = PG.connect({dbname: 'bounty_hunter', host: 'localhost'})
+      sql = "SELECT * FROM bounties"
+      values = []
+      db.prepare("all", sql)
+      results = db.exec_prepared("all", values)
+      db.close()
+      bounties = results.map {|bounty_hash| Bounty.new(bounty_hash)}
+      return bounties
     end
 
   end
