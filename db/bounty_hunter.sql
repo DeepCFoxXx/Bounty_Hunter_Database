@@ -7,3 +7,9 @@ CREATE TABLE bounties (
   danger_level VARCHAR(255),
   last_known_location VARCHAR(255)
 );
+
+
+
+--  createdb bounty_hunter
+--  psql -d bounty_hunter -f db/bounty_hunter.sql
+--  ruby db/console.rb

@@ -50,31 +50,39 @@ class Bounty
       db.prepare("update", sql)
       db.exec_prepared("update", values)
       db.close()
-    end
-
-    def delete()
-      db = PG.connect({dbname: 'bounty_hunter', host: 'localhost'})
-      sql = "DELETE FROM bounties
-      WHERE id = $1"
-      values = [@id]
-      db.prepare("delete", sql)
-      db.exec_prepared("delete", values)
-      db.close()
-    end
-
-    def Bounty.all() 
-      db = PG.connect({dbname: 'bounty_hunter', host: 'localhost'})
-      sql = "SELECT * FROM bounties"
-      values = []
-      db.prepare("all", sql)
-      results = db.exec_prepared("all", values)
-      db.close()
-      bounties = results.map {|bounty_hash| Bounty.new(bounty_hash)}
-      return bounties
-    end
-
   end
 
-  # createdb bounty_hunter
-  # psql -d bounty_hunter -f db/bounty_hunter.sql
-  # ruby db/console.rb
+  def delete()
+    db = PG.connect({dbname: 'bounty_hunter', host: 'localhost'})
+    sql = "DELETE FROM bounties
+    WHERE id = $1"
+    values = [@id]
+    db.prepare("delete", sql)
+    db.exec_prepared("delete", values)
+    db.close()
+  end
+
+  def Bounty.all()
+    db = PG.connect({dbname: 'bounty_hunter', host: 'localhost'})
+    sql = "SELECT * FROM bounties"
+    values = []
+    db.prepare("all", sql)
+    results = db.exec_prepared("all", values)
+    db.close()
+    bounties = results.map {|bounty_hash| Bounty.new(bounty_hash)}
+    return bounties
+  end
+
+  def Bounty.find(id) 
+    db = PG.connect({dbname: 'bounty_hunter', host: 'localhost'})
+    sql = "SELECT * FROM bounties
+      WHERE id = $1"
+    values = [id]
+    db.prepare("find", sql)
+    results_array = db.exec_prepared("find", values)
+    bounty_hash = results_array[0]
+    bounty = Bounty.new(bounty_hash)
+    return bounty
+  end
+
+end
