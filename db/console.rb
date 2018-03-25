@@ -1,3 +1,4 @@
+require('pry-byebug')
 require_relative('../models/bounty.rb')
 
 Bounty.delete_all()
@@ -25,3 +26,6 @@ bounty1 = Bounty.new({
       'last_known_location' => 'Corellia'
       })
       bounty3.save()
+
+      binding.pry
+      nil
