@@ -17,3 +17,11 @@ bounty1 = Bounty.new({
     'last_known_location' => 'Halowan'
     })
     bounty2.save()
+
+    bounty3 = Bounty.new({
+      'name' => 'Dengar',
+      'bounty_value' => 2000,
+      'danger_level' => 'Low',
+      'last_known_location' => 'Corellia'
+      })
+      bounty3.save()
